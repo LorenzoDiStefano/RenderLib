@@ -1,25 +1,18 @@
 #include <iostream>
-#include <glm/vec2.hpp>
-#include <GLFW/glfw3.h>
-#include <assimp/color4.h>
+#include "ogl4/OpenGL4Api.hpp"
+
 
 int main()
 {
-	
-	glm::vec2 vector2_test(5, 6);
-	std::cout << "vector2_test x"<< vector2_test.x;
-	aiColor4D color{1,2,3,4};
-	if (!glfwInit())
+    auto gpu = std::make_shared<RenderLib::OpenGL4Api>(512, 512, "Hello World");
+
+	while (gpu->DequeueEvents())
 	{
-		// Initialization failed
-		std::cout << "\nInitialization failed";
+		gpu->Clear({ 0, 1, 0, 1 });
+
+		gpu->Present();
 	}
 
-	int monitors;
-	glfwGetMonitors(&monitors);
-	std::cout << "\nmonitors : " << monitors;
-	std::cout << "\ncolor : " << color.a;
+    return 0;
 
-	glfwTerminate();
-	return 0;
 }
