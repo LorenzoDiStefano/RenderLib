@@ -14,5 +14,5 @@ add_subdirectory(dependencies)
 
 target_include_directories(RenderLibMainTest PRIVATE ${glm_SOURCE_DIR})
 
-target_link_libraries(RenderLibMainTest PRIVATE glfw)
+target_link_libraries(RenderLibMainTest PRIVATE glfw assimp)
 target_include_directories(RenderLibMainTest PRIVATE glfw)
