@@ -1,4 +1,3 @@
-
 #ifndef RENDERLIB_MESH_DATA
 #define RENDERLIB_MESH_DATA
 #include <iostream>
@@ -13,7 +12,7 @@ namespace RenderLib
 	public:
 
 
-	}
+	};
 }
 
 #endif
