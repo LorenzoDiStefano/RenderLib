@@ -1,5 +1,6 @@
-#include "OpenGL4Mesh.hpp"
+#include <RenderLib/OpenGL4Mesh.hpp>
 #include <iostream>
+
 namespace RenderLib {
 
 	RenderLib::OpenGL4Mesh::OpenGL4Mesh() : number_of_vertices(0)

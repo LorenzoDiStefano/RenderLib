@@ -352,4 +352,5 @@ MigrationBackup/
 
 #CMake Stuff
 out/build/*
+dependencies/out/build/*
 CMakeSettings.json

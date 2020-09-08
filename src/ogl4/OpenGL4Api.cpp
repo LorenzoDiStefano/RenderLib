@@ -1,4 +1,4 @@
-#include "OpenGL4Api.hpp"
+#include <RenderLib/OpenGL4Api.hpp>
 #include <iostream>
 
 RenderLib::OpenGL4Api::OpenGL4Api(const uint32_t width, const uint32_t height, const std::string title) :

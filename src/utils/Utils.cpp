@@ -1,4 +1,5 @@
-#include "Utils.h"
+#include <RenderLib/Utils.h>
+
 #include <assimp/Importer.hpp>
 
 std::unique_ptr<std::vector<std::byte>> RenderLib::Utils::ReadFileContent(const std::filesystem::path path)

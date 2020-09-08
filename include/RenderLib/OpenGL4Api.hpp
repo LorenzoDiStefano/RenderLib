@@ -1,8 +1,8 @@
 #ifndef RENDERLIB_OPENGL4_API
 #define RENDERLIB_OPENGL4_API
 
-#include "../IGPUApi.hpp"
-#include "../glad.h"
+#include "../../src/IGPUApi.hpp"
+#include "../../src/glad.h"
 #include <GLFW/glfw3.h>
 #include <string>
 
