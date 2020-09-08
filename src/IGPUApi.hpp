@@ -5,8 +5,8 @@
 #include <memory>
 #include <string>
 #include <functional>
-#include "glm/vec4.hpp"
-#include "glm/mat4x4.hpp"
+#include <glm/mat4x4.hpp>
+#include <glm/vec4.hpp>
 
 /*
 Interface for GPU api abstraction
