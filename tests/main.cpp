@@ -1,6 +1,5 @@
 #include <iostream>
-#include "ogl4/OpenGL4Api.hpp"
-
+#include "../src/ogl4/OpenGL4Api.hpp"
 
 int main()
 {

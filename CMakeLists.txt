@@ -24,16 +24,21 @@ set(RENDERLIB_SOURCE
  	"src/ogl4/OpenGL4Mesh.cpp"
 	"src/glad.c"
 	"src/utils/MeshData.cpp"
-	"src/main.cpp"
 	"src/utils/Utils.cpp"
 )
 
+	
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-add_executable(RenderLibMainTest ${RENDERLIB_SOURCE})
+add_executable(RenderLibMainTest "tests/main.cpp")
+add_library(RenderLib STATIC ${RENDERLIB_SOURCE})
+
 add_subdirectory(dependencies)
+add_dependencies(RenderLibMainTest RenderLib)
 
-target_include_directories(RenderLibMainTest PRIVATE ${glm_SOURCE_DIR} glfw)
+target_include_directories(RenderLib PUBLIC ${glm_SOURCE_DIR} glfw)
+target_link_libraries(RenderLib PUBLIC glfw assimp)
 
-target_link_libraries(RenderLibMainTest PRIVATE glfw assimp)
+target_link_libraries(RenderLibMainTest PRIVATE RenderLib)
+target_include_directories(RenderLibMainTest PRIVATE RenderLib)
