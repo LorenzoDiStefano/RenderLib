@@ -1,3 +1,6 @@
+#ifndef RENDERLIB_UTILS
+#define RENDERLIB_UTILS
+
 #include <memory>
 #include <filesystem>
 #include <fstream>
@@ -16,3 +19,5 @@ namespace RenderLib
 		static std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
 	};
 }
+
+#endif

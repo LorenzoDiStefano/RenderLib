@@ -1,4 +1,4 @@
-#include <RenderLib/MeshData.h>
+#include <RenderLib/MeshData.hpp>
 
 namespace RenderLib
 {

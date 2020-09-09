@@ -12,8 +12,8 @@ set(RENDERLIB_HEADERS
 	"src/glad.h"
 	"src/khrplatform.h"
 	"src/IGPUApi.hpp"
-	"src/utils/MeshData.h"
-	"src/utils/Utils.h"
+	"src/utils/MeshData.hpp"
+	"src/utils/Utils.hpp"
 )
 
 set(RENDERLIB_SOURCE
@@ -24,6 +24,7 @@ set(RENDERLIB_SOURCE
 	"src/glad.c"
 	"src/utils/MeshData.cpp"
 	"src/utils/Utils.cpp"
+	"src/utils/ObjParser.cpp"
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")

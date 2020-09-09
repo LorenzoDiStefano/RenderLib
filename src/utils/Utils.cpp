@@ -1,4 +1,4 @@
-#include <RenderLib/Utils.h>
+#include <RenderLib/Utils.hpp>
 
 #include <assimp/Importer.hpp>
 
