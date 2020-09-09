@@ -10,6 +10,7 @@
 #include <array>
 #include <unordered_map>
 #include <functional>
+#include "../src/utils/ObjParser.hpp"
 
 namespace RenderLib
 {

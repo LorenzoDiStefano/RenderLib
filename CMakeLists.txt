@@ -14,6 +14,7 @@ set(RENDERLIB_HEADERS
 	"src/IGPUApi.hpp"
 	"src/utils/MeshData.hpp"
 	"src/utils/Utils.hpp"
+	"src/utils/ObjParser.hpp"
 )
 
 set(RENDERLIB_SOURCE
