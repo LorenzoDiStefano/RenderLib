@@ -9,19 +9,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(RENDERLIB_HEADERS
 	"src/ogl4/OpenGL4Api.hpp"
- 	#"src/ogl4/OpenGL4Mesh.hpp"
 	"src/glad.h"
 	"src/khrplatform.h"
 	"src/IGPUApi.hpp"
 	"src/utils/MeshData.h"
 	"src/utils/Utils.h"
 )
-
-set(RENDERLIB_INCLUDES
-
- 	"include/Renderlib/OpenGL4Mesh.hpp"
-)
-
 
 set(RENDERLIB_SOURCE
 	
@@ -33,17 +26,14 @@ set(RENDERLIB_SOURCE
 	"src/utils/Utils.cpp"
 )
 
-	
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 add_executable(RenderLibMainTest "tests/main.cpp")
 add_library(RenderLib STATIC ${RENDERLIB_SOURCE})
 
 add_subdirectory(dependencies)
+add_subdirectory(tests)
 add_dependencies(RenderLibMainTest RenderLib)
-
-message(WARNING ${CMAKE_SOURCE_DIR})
 
 target_include_directories(RenderLib PUBLIC ${glm_SOURCE_DIR} glfw PUBLIC "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>")
 target_link_libraries(RenderLib PUBLIC glfw assimp)

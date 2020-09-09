@@ -53,3 +53,19 @@ if(NOT assimp_POPULATED)
 	set(ASSIMP_BUILD_STATIC_LIB ON)
 	add_subdirectory(${assimp_SOURCE_DIR} ${assimp_BINARY_DIR})
 endif()
+
+#downloading googletest from git
+FetchContent_Declare(
+	googletest
+	GIT_REPOSITORY	http://github.com/google/googletest.git
+	GIT_TAG			release-1.10.0
+)
+
+set(gtest_force_shared_crt ON CACHE BOOL [FORCE])
+FetchContent_GetProperties(googletest)
+
+if(NOT googletest_POPULATED)
+  FetchContent_Populate(googletest)
+  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+endif()
+
