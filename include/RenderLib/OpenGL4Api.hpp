@@ -20,11 +20,17 @@ namespace RenderLib
 
 		void Clear(const glm::vec4 color) override;
 
+		std::shared_ptr<GPUPipeline> CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code) override;
+
+		std::shared_ptr<IMesh> CreateMesh() override;
+
+		void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) override;
+
 
 	private:
 		GLFWwindow* window;
-		const uint32_t width;
-		const uint32_t height;
+		uint32_t width;
+		uint32_t height;
 		bool close;
 	};
 }

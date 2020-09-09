@@ -3,17 +3,17 @@
 
 namespace RenderLib {
 
-	RenderLib::OpenGL4Mesh::OpenGL4Mesh() : number_of_vertices(0)
+	OpenGL4Mesh::OpenGL4Mesh() : number_of_vertices(0)
 	{
 		glGenVertexArrays(1, &vao);
 	}
 
-	RenderLib::OpenGL4Mesh::~OpenGL4Mesh()
+	OpenGL4Mesh::~OpenGL4Mesh()
 	{
 		glDeleteVertexArrays(1, &vao);
 	}
 
-	void RenderLib::OpenGL4Mesh::AddElements(const std::vector<float>& data, const uint32_t size)
+	void OpenGL4Mesh::AddElements(const std::vector<float>& data, const uint32_t size)
 	{
 		glBindVertexArray(vao);
 		GLuint vbo;
@@ -32,10 +32,8 @@ namespace RenderLib {
 		vbos.push_back(vbo);
 	}
 
-	void RenderLib::OpenGL4Mesh::Bind()
+	void OpenGL4Mesh::Bind()
 	{
 		glBindVertexArray(vao);
 	}
-
-
 }

@@ -1,3 +1,6 @@
+#ifndef RENDERLIB_OBJ_PARSER
+#define RENDERLIB_OBJ_PARSER
+
 #include <Windows.h>
 #include <RenderLib/Utils.hpp>
 #include <RenderLib/OpenGL4Api.hpp>
@@ -84,3 +87,5 @@ namespace RenderLib
 		std::vector<float> uvs;
 	};
 }
+
+#endif

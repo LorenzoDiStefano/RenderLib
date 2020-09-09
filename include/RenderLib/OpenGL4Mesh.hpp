@@ -1,6 +1,6 @@
 #ifndef RENDERLIB_OPENGL4_MESH
 #define RENDERLIB_OPENGL4_MESH
-#include "../IMesh.hpp"
+#include "../src/IMesh.hpp"
 #include "OpenGL4Api.hpp"
 #include <GLFW/glfw3.h>
 #include <string>
