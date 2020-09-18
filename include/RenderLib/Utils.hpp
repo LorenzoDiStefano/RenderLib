@@ -11,6 +11,8 @@
 #include <unordered_map>
 #include <functional>
 #include "../src/utils/ObjParser.hpp"
+#include "Model.hpp"
+
 
 namespace RenderLib
 {
@@ -18,7 +20,10 @@ namespace RenderLib
 	{
 	public:
 		static std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
+	
 	};
 }
+
+
 
 #endif

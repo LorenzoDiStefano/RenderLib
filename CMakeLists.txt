@@ -15,6 +15,8 @@ set(RENDERLIB_HEADERS
 	"src/utils/MeshData.hpp"
 	"src/utils/Utils.hpp"
 	"src/utils/ObjParser.hpp"
+	"src/utils/Model.hpp"
+	"src/utils/Vertex.hpp"
 )
 
 set(RENDERLIB_SOURCE
