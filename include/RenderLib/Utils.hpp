@@ -20,8 +20,10 @@ namespace RenderLib
 	{
 	public:
 		static std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
-	
+		
 	};
+
+	void loadModel(std::string path, Model& model);
 }
 
 
