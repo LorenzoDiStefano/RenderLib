@@ -44,3 +44,13 @@ target_link_libraries(RenderLib PUBLIC glfw assimp)
 
 target_link_libraries(RenderLibMainTest PRIVATE RenderLib)
 target_include_directories(RenderLibMainTest PRIVATE RenderLib)
+
+add_custom_command(TARGET RenderLibMainTest PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/assets #<--- copy files in this folder
+		${PROJECT_BINARY_DIR}/assets/) #<--- into this path
+
+add_custom_command(TARGET RenderLibMainTest PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/src/shaders #<--- copy files in this folder
+		${PROJECT_BINARY_DIR}/shaders/) #<--- into this path

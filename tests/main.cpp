@@ -9,8 +9,8 @@ int main()
 	// Dangling pointers
 	auto gpu = std::make_shared<RenderLib::OpenGL4Api>(1024, 1024, "Hello World");
 
-	auto vertex_shader_path = std::filesystem::path("D:/Rendering3D/RenderLib/src/sprite_vertex.glsl");
-	auto pixel_shader_path = std::filesystem::path("D:/Rendering3D/RenderLib/src/sprite_pixel.glsl");
+	auto vertex_shader_path = std::filesystem::path("shaders/sprite_vertex.glsl");
+	auto pixel_shader_path = std::filesystem::path("shaders/sprite_pixel.glsl");
 
 	auto vertex_shader_code = RenderLib::Utils::ReadFileContent(vertex_shader_path);
 	auto pixel_shader_code = RenderLib::Utils::ReadFileContent(pixel_shader_path);
@@ -22,7 +22,7 @@ int main()
 
 	auto triangle = gpu->CreateMesh();
 
-	auto obj = RenderLib::ObjParser("D:/Rendering3D/RenderLib/src/Stormtrooper.obj");
+	auto obj = RenderLib::ObjParser("assets/Stormtrooper.obj");
 
 	triangle->AddElements(obj.get_vertices(), 3);
 	triangle->AddElements(obj.get_normals(), 3);
