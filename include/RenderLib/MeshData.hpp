@@ -16,6 +16,10 @@ namespace RenderLib
 		// mesh data
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
+
+		std::vector<float> _vertices;
+		std::vector<float> _normals;
+		std::vector<float> _uvs;
 		//std::vector<Texture> textures;
 	};
 }

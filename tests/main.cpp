@@ -23,9 +23,12 @@ int main()
 	auto triangle = gpu->CreateMesh();
 
 	auto obj = RenderLib::ObjParser("assets/Stormtrooper.obj");
+	
+	RenderLib::Model stormtropper_model;
+	RenderLib::loadModel("assets/Stormtrooper.obj", stormtropper_model);
 
-	triangle->AddElements(obj.get_vertices(), 3);
-	triangle->AddElements(obj.get_normals(), 3);
+	triangle->AddElements(stormtropper_model.meshes[0]._vertices, 3);
+	triangle->AddElements(stormtropper_model.meshes[0]._normals, 3);
 
 	glm::vec3 position = { 0, 0, 0 };
 

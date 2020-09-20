@@ -39,7 +39,6 @@ namespace RenderLib
             vector.z = mesh->mVertices[i].z;
             vertex.Position = vector;
 
-
             //process Normal
             vector.x = mesh->mNormals[i].x;
             vector.y = mesh->mNormals[i].y;
@@ -67,10 +66,28 @@ namespace RenderLib
                 indices.push_back(face.mIndices[j]);
         }
 
+        MeshData result;
+
+        result.vertices = vertices;
+        result.indices = indices;
+
+        for (auto index : indices)
+        {
+            result._vertices.push_back(vertices[index].Position.x);
+            result._vertices.push_back(vertices[index].Position.y);
+            result._vertices.push_back(vertices[index].Position.z);
+
+            result._uvs.push_back(vertices[index].TexCoords.x);
+            result._uvs.push_back(vertices[index].TexCoords.y);
+
+            result._normals.push_back(vertices[index].Normal.x);
+            result._normals.push_back(vertices[index].Normal.y);
+            result._normals.push_back(vertices[index].Normal.z);
+        }
 
         //TODO process material
 
-        return MeshData(vertices, indices);
+        return result;
     }
 
 
