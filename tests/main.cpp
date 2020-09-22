@@ -27,8 +27,8 @@ int main()
 	RenderLib::Model stormtropper_model;
 	RenderLib::loadModel("assets/Stormtrooper.obj", stormtropper_model);
 
-	triangle->AddElements(stormtropper_model.meshes[0]._vertices, 3);
-	triangle->AddElements(stormtropper_model.meshes[0]._normals, 3);
+	triangle->AddElements(stormtropper_model.meshes[0].vertices, 3);
+	triangle->AddElements(stormtropper_model.meshes[0].normals, 3);
 
 	glm::vec3 position = { 0, 0, 0 };
 

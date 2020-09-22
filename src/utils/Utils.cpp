@@ -68,21 +68,20 @@ namespace RenderLib
 
         MeshData result;
 
-        result.vertices = vertices;
-        result.indices = indices;
 
+        // copy vertices in float array 
         for (auto index : indices)
         {
-            result._vertices.push_back(vertices[index].Position.x);
-            result._vertices.push_back(vertices[index].Position.y);
-            result._vertices.push_back(vertices[index].Position.z);
+            result.vertices.push_back(vertices[index].Position.x);
+            result.vertices.push_back(vertices[index].Position.y);
+            result.vertices.push_back(vertices[index].Position.z);
 
-            result._uvs.push_back(vertices[index].TexCoords.x);
-            result._uvs.push_back(vertices[index].TexCoords.y);
+            result.uvs.push_back(vertices[index].TexCoords.x);
+            result.uvs.push_back(vertices[index].TexCoords.y);
 
-            result._normals.push_back(vertices[index].Normal.x);
-            result._normals.push_back(vertices[index].Normal.y);
-            result._normals.push_back(vertices[index].Normal.z);
+            result.normals.push_back(vertices[index].Normal.x);
+            result.normals.push_back(vertices[index].Normal.y);
+            result.normals.push_back(vertices[index].Normal.z);
         }
 
         //TODO process material
