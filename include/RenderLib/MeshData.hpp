@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Vertex.hpp"
+#include "Texture.hpp"
 
 namespace RenderLib
 {
@@ -18,7 +19,7 @@ namespace RenderLib
 		std::vector<float> vertices;
 		std::vector<float> normals;
 		std::vector<float> uvs;
-		//std::vector<Texture> textures;
+		std::vector<Texture> textures;
 	};
 }
 

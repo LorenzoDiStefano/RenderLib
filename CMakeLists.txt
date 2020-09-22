@@ -17,6 +17,8 @@ set(RENDERLIB_HEADERS
 	"src/utils/ObjParser.hpp"
 	"src/utils/Model.hpp"
 	"src/utils/Vertex.hpp"
+	"src/utils/Texture.hpp"
+	"dependencies/stb_image.h"
 )
 
 set(RENDERLIB_SOURCE

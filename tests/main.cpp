@@ -22,17 +22,19 @@ int main()
 
 	auto triangle = gpu->CreateMesh();
 
-	auto obj = RenderLib::ObjParser("assets/Stormtrooper.obj");
+	
 	
 	RenderLib::Model stormtropper_model;
-	RenderLib::loadModel("assets/Stormtrooper.obj", stormtropper_model);
+	RenderLib::loadModel("assets/peasant_man.fbx", stormtropper_model);
+	
 
 	triangle->AddElements(stormtropper_model.meshes[0].vertices, 3);
 	triangle->AddElements(stormtropper_model.meshes[0].normals, 3);
+	triangle->AddElements(stormtropper_model.meshes[0].uvs, 2);
 
 	glm::vec3 position = { 0, 0, 0 };
 
-	glm::vec3 camera = { 0 , 1.5f, 6 };
+	glm::vec3 camera = { 0 , 150.5f, 350 };
 
 	glm::vec3 light_direction = { 0, 0, -1 };
 
@@ -44,10 +46,13 @@ int main()
 	{
 		auto projection = glm::perspective(glm::degrees(60.0f), static_cast<float>(gpu->GetWidth()) / static_cast<float>(gpu->GetHeight()), 0.01f, 1000.0f);
 
+
 		roty += 0.001f;
 
 		auto model = glm::translate(glm::mat4(1), position) *
 			glm::rotate(glm::mat4(1), glm::degrees(roty), { 0, 1, 0 });
+
+		//model = glm::scale(model, glm::vec3(0.5f));
 
 		auto view = glm::translate(glm::mat4(1), -camera);
 
