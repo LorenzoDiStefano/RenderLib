@@ -14,7 +14,7 @@ namespace RenderLib
         // model data
         std::vector<MeshData> meshes;
         std::string directory;
-
+        std::vector<Texture> textures_loaded;
     };
 }
 #endif

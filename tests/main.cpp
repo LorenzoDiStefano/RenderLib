@@ -3,6 +3,8 @@
 #include <RenderLib/OpenGL4Mesh.hpp>
 #include <RenderLib/Utils.hpp>
 
+
+
 int main()
 {
 	// AAA Almost Always Auto
@@ -25,16 +27,39 @@ int main()
 	
 	
 	RenderLib::Model stormtropper_model;
-	RenderLib::loadModel("assets/peasant_man.fbx", stormtropper_model);
+	RenderLib::loadModel("assets/backpack.obj", stormtropper_model);
 	
 
 	triangle->AddElements(stormtropper_model.meshes[0].vertices, 3);
 	triangle->AddElements(stormtropper_model.meshes[0].normals, 3);
 	triangle->AddElements(stormtropper_model.meshes[0].uvs, 2);
 
+
+
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	for (unsigned int i = 0; i < stormtropper_model.textures_loaded.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+		// retrieve texture number (the N in diffuse_textureN)
+		std::string number;
+		std::string name = stormtropper_model.textures_loaded[i].type;
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularNr++);
+
+		//shader.setFloat(("material." + name + number).c_str(), i);
+		glBindTexture(GL_TEXTURE_2D, stormtropper_model.textures_loaded[i].id);
+	}
+	glActiveTexture(GL_TEXTURE0);
+
+
+
+
 	glm::vec3 position = { 0, 0, 0 };
 
-	glm::vec3 camera = { 0 , 150.5f, 350 };
+	glm::vec3 camera = { 0 ,1.5f, 6 };
 
 	glm::vec3 light_direction = { 0, 0, -1 };
 
