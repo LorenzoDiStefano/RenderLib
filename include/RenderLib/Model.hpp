@@ -15,6 +15,7 @@ namespace RenderLib
         std::vector<MeshData> meshes;
         std::string directory;
         std::vector<Texture> textures_loaded;
+        int meshCount = 0;
     };
 }
 #endif

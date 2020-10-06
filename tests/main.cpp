@@ -22,38 +22,27 @@ int main()
 		std::string(reinterpret_cast<char*>(pixel_shader_code->data()), pixel_shader_code->size())
 	);
 
-	auto triangle = gpu->CreateMesh();
+	
 
 	
 	
 	RenderLib::Model stormtropper_model;
 	RenderLib::loadModel("assets/backpack.obj", stormtropper_model);
 	
-
-	triangle->AddElements(stormtropper_model.meshes[0].vertices, 3);
-	triangle->AddElements(stormtropper_model.meshes[0].normals, 3);
-	triangle->AddElements(stormtropper_model.meshes[0].uvs, 2);
-
-
-
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	for (unsigned int i = 0; i < stormtropper_model.textures_loaded.size(); i++)
+	std::vector<std::shared_ptr<RenderLib::IMesh>> modelMeshes;
+	for (size_t i = 0; i < stormtropper_model.meshCount; i++)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-		// retrieve texture number (the N in diffuse_textureN)
-		std::string number;
-		std::string name = stormtropper_model.textures_loaded[i].type;
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++);
-
-		//shader.setFloat(("material." + name + number).c_str(), i);
-		glBindTexture(GL_TEXTURE_2D, stormtropper_model.textures_loaded[i].id);
+		auto triangle = gpu->CreateMesh();
+		triangle->AddElements(stormtropper_model.meshes[i].vertices, 3);
+		triangle->AddElements(stormtropper_model.meshes[i].normals, 3);
+		triangle->AddElements(stormtropper_model.meshes[i].uvs, 2);
+		modelMeshes.push_back(triangle);
 	}
-	glActiveTexture(GL_TEXTURE0);
+	
 
+
+
+	
 
 
 
@@ -76,14 +65,37 @@ int main()
 
 		auto model = glm::translate(glm::mat4(1), position) *
 			glm::rotate(glm::mat4(1), glm::degrees(roty), { 0, 1, 0 });
-
+		model = glm::scale(model, glm::vec3(0.5f));
 		//model = glm::scale(model, glm::vec3(0.5f));
 
 		auto view = glm::translate(glm::mat4(1), -camera);
 
 		gpu->Clear({ 0, 1, 0, 1 });
+		for (size_t i = 0; i < stormtropper_model.meshCount; i++)
+		{
+			gpu->Draw(pipeline, modelMeshes[i], model, view, projection, light_direction);
 
-		gpu->Draw(pipeline, triangle, model, view, projection, light_direction);
+			unsigned int diffuseNr = 1;
+			unsigned int specularNr = 1;
+			unsigned int normalNr = 1;
+			unsigned int heightNr = 1;
+			for (unsigned int y = 0; y < stormtropper_model.textures_loaded.size(); y++)
+			{
+				glActiveTexture(GL_TEXTURE0 + y); // activate proper texture unit before binding
+				// retrieve texture number (the N in diffuse_textureN)
+				std::string number;
+				std::string name = stormtropper_model.textures_loaded[y].type;
+				if (name == "texture_diffuse")
+					number = std::to_string(diffuseNr++);
+				else if (name == "texture_specular")
+					number = std::to_string(specularNr++);
+				glUniform1i(glGetUniformLocation(1, (name + number).c_str()), y);
+
+				//shader.setFloat(("material." + name + number).c_str(), i);
+				glBindTexture(GL_TEXTURE_2D, stormtropper_model.textures_loaded[y].id);
+			}
+			glActiveTexture(GL_TEXTURE0);
+		}
 
 		gpu->Present();
 	}

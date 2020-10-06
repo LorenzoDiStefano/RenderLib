@@ -1,6 +1,6 @@
 #version 410 core
 
-out vec3 color;
+out vec4 color;
 in vec2 out_texture;
 
 in vec4 out_normal;
@@ -19,5 +19,5 @@ void main()
 	float lambert = clamp(dot(normalize(-light_direction), normalize(out_normal.xyz)), 0, 1);
 	//vec3 base_color = vec3(1, 0, 0);
 	//color = vec4((out_texture.rgb * lambert) + vec3(0.0, 0.0, 0.0), 1);
-	color = texture(texture_diffuse1, out_texture).rgb;
+	color = (texture(texture_diffuse1, out_texture) * lambert );
 }
