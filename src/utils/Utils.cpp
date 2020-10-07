@@ -223,7 +223,7 @@ namespace RenderLib
 
         model.directory = path.substr(0, path.find_last_of('/'));
 
-        model.meshCount = scene->mRootNode->mNumChildren;
+        model.meshCount = scene->mNumMeshes;
 
         processNode(scene->mRootNode, scene, model);
     }
