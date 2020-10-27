@@ -4,6 +4,7 @@
 #include <vector>
 #include "MeshData.hpp"
 
+
 namespace RenderLib
 {
     class Model
@@ -16,6 +17,8 @@ namespace RenderLib
         std::string directory;
         std::vector<Texture> textures_loaded;
         int meshCount = 0;
+
+        void setActiveTexture();
     };
 }
 #endif

@@ -2,7 +2,6 @@
 #include <RenderLib/OpenGL4Api.hpp>
 #include <RenderLib/OpenGL4Mesh.hpp>
 #include <RenderLib/Utils.hpp>
-#include "../dependencies/stb_image.h"
 
 
 int main()
@@ -22,7 +21,8 @@ int main()
 		std::string(reinterpret_cast<char*>(pixel_shader_code->data()), pixel_shader_code->size())
 	);
 	
-	stbi_set_flip_vertically_on_load(true);
+	// set flip image
+	RenderLib::Utils::setImageVerticalFlip(true);
 
 	RenderLib::Model stormtropper_model;
 	RenderLib::loadModel("assets/backpack.obj", stormtropper_model);
@@ -61,26 +61,8 @@ int main()
 
 		gpu->Clear({ 0, 1, 0, 1 });
 
-		unsigned int diffuseNr = 1;
-		unsigned int specularNr = 1;
-		unsigned int normalNr = 1;
-		unsigned int heightNr = 1;
-		for (unsigned int y = 0; y < stormtropper_model.textures_loaded.size(); y++)
-		{
-			glActiveTexture(GL_TEXTURE0 + y); // activate proper texture unit before binding
-			// retrieve texture number (the N in diffuse_textureN)
-			std::string number;
-			std::string name = stormtropper_model.textures_loaded[y].type;
-			if (name == "texture_diffuse")
-				number = std::to_string(diffuseNr++);
-			else if (name == "texture_specular")
-				number = std::to_string(specularNr++);
-			glUniform1i(glGetUniformLocation(1, (name + number).c_str()), y);
-
-			//shader.setFloat(("material." + name + number).c_str(), i);
-			glBindTexture(GL_TEXTURE_2D, stormtropper_model.textures_loaded[y].id);
-		}
-		glActiveTexture(GL_TEXTURE0);
+		// active texture 
+		stormtropper_model.setActiveTexture();
 
 		for (size_t i = 0; i < stormtropper_model.meshCount; i++)
 		{

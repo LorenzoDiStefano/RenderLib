@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(RENDERLIB_HEADERS
+	"dependencies/stb_image.h"
 	"src/ogl4/OpenGL4Api.hpp"
 	"src/glad.h"
 	"src/khrplatform.h"
@@ -18,7 +19,6 @@ set(RENDERLIB_HEADERS
 	"src/utils/Model.hpp"
 	"src/utils/Vertex.hpp"
 	"src/utils/Texture.hpp"
-	"dependencies/stb_image.h"
 )
 
 set(RENDERLIB_SOURCE
@@ -30,6 +30,7 @@ set(RENDERLIB_SOURCE
 	"src/utils/MeshData.cpp"
 	"src/utils/Utils.cpp"
 	"src/utils/ObjParser.cpp"
+	"src/Model.cpp"
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
