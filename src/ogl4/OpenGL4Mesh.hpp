@@ -1,9 +1,8 @@
 #ifndef RENDERLIB_OPENGL4_MESH
 #define RENDERLIB_OPENGL4_MESH
-#include "../src/IMesh.hpp"
-#include "OpenGL4Api.hpp"
-#include <GLFW/glfw3.h>
+#include <RenderLib/IMesh.hpp>
 #include <string>
+#include "../src/ogl4/glad.h"
 
 namespace RenderLib
 {

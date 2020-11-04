@@ -1,6 +1,9 @@
 #include <RenderLib/OpenGL4Api.hpp>
-#include <RenderLib/OpenGL4Mesh.hpp>
 #include <iostream>
+#include "OpenGL4Mesh.hpp"
+#include "OpenGL4Model.hpp"
+#include "glad.h"
+
 
 RenderLib::OpenGL4Api::OpenGL4Api(const uint32_t width, const uint32_t height, const std::string title) :
 	width(width),
@@ -70,9 +73,14 @@ namespace RenderLib
 	};
 }
 
-std::shared_ptr<RenderLib::IMesh> RenderLib::OpenGL4Api::CreateMesh()
+std::shared_ptr<RenderLib::IMesh> RenderLib::OpenGL4Api::CreateMesh() const
 {
 	return std::make_shared<RenderLib::OpenGL4Mesh>();
+}
+
+std::shared_ptr<RenderLib::IModel> RenderLib::OpenGL4Api::CreateModel()
+{
+	return std::make_shared<RenderLib::OpenGL4Model>();
 }
 
 void RenderLib::OpenGL4Api::Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light)

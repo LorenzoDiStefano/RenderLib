@@ -1,8 +1,11 @@
 #include <iostream>
 #include <RenderLib/OpenGL4Api.hpp>
-#include <RenderLib/OpenGL4Mesh.hpp>
+#include <RenderLib/IModel.hpp>
+#include <RenderLib/IMesh.hpp>
 #include <RenderLib/Utils.hpp>
-
+#include <RenderLib/MeshData.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 int main()
 {
@@ -20,34 +23,27 @@ int main()
 		std::string(reinterpret_cast<char*>(vertex_shader_code->data()), vertex_shader_code->size()),
 		std::string(reinterpret_cast<char*>(pixel_shader_code->data()), pixel_shader_code->size())
 	);
-	
-	// set flip image
-	RenderLib::Utils::setImageVerticalFlip(true);
 
-	RenderLib::Model stormtropper_model;
-	RenderLib::loadModel("assets/backpack.obj", stormtropper_model);
-	
-	std::vector<std::shared_ptr<RenderLib::IMesh>> modelMeshes;
-	for (size_t i = 0; i < stormtropper_model.meshCount; i++)
-	{
-		auto triangle = gpu->CreateMesh();
-		triangle->AddElements(stormtropper_model.meshes[i].vertices, 3);
-		triangle->AddElements(stormtropper_model.meshes[i].normals, 3);
-		triangle->AddElements(stormtropper_model.meshes[i].uvs, 2);
-		modelMeshes.push_back(triangle);
-	}
+	// set flip image
+	RenderLib::Utils::SetImageLoadingVerticalFlip(true);
+
+	auto stormtropper_model = gpu->CreateModel();
+
+	RenderLib::MeshData assetLoadedData = RenderLib::ImportModelAsset("assets/backpack.obj");
+
+	stormtropper_model->LoadMeshes(assetLoadedData, *gpu);
 
 	glm::vec3 position = { 0, 0, 0 };
-
 	glm::vec3 camera = { 0 ,1.5f, 6 };
-
 	glm::vec3 light_direction = { 0, 0, -1 };
 
 	float roty = 0;
 
 	while (gpu->DequeueEvents())
 	{
-		auto projection = glm::perspective(glm::degrees(60.0f), static_cast<float>(gpu->GetWidth()) / static_cast<float>(gpu->GetHeight()), 0.01f, 1000.0f);
+		auto projection = glm::perspective(
+			glm::degrees(60.0f), static_cast<float>(gpu->GetWidth()) / static_cast<float>(gpu->GetHeight()), 
+			0.01f, 1000.0f);
 
 
 		roty += 0.00001f;
@@ -62,11 +58,11 @@ int main()
 		gpu->Clear({ 0, 1, 0, 1 });
 
 		// active texture 
-		stormtropper_model.setActiveTexture();
+		stormtropper_model->setActiveTexture();
 
-		for (size_t i = 0; i < stormtropper_model.meshCount; i++)
+		for (size_t i = 0; i < stormtropper_model->meshesCount; i++)
 		{
-			gpu->Draw(pipeline, modelMeshes[i], model, view, projection, light_direction);
+			gpu->Draw(pipeline, stormtropper_model->modelMeshes[i], model, view, projection, light_direction);
 		}
 
 		gpu->Present();

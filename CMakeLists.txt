@@ -9,34 +9,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(RENDERLIB_HEADERS
 	"dependencies/stb_image.h"
+	"src/ogl4/glad.h"
+	"src/ogl4/khrplatform.h"
 	"src/ogl4/OpenGL4Api.hpp"
-	"src/glad.h"
-	"src/khrplatform.h"
-	"src/IGPUApi.hpp"
-	"src/utils/MeshData.hpp"
-	"src/utils/Utils.hpp"
-	"src/utils/ObjParser.hpp"
-	"src/utils/Model.hpp"
-	"src/utils/Vertex.hpp"
-	"src/utils/Texture.hpp"
+ 	"src/ogl4/OpenGL4Mesh.hpp"
+	"src/ogl4/OpenGL4Model.hpp"
 )
 
 set(RENDERLIB_SOURCE
-	
 	${RENDERLIB_HEADERS_HEADERS}
+	"src/ogl4/glad.c"
 	"src/ogl4/OpenGL4Api.cpp"
  	"src/ogl4/OpenGL4Mesh.cpp"
-	"src/glad.c"
+	"src/ogl4/OpenGL4Model.cpp"
 	"src/utils/MeshData.cpp"
 	"src/utils/Utils.cpp"
-	"src/utils/ObjParser.cpp"
-	"src/Model.cpp"
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+
 add_executable(RenderLibMainTest "tests/main.cpp")
 add_library(RenderLib STATIC ${RENDERLIB_SOURCE})
+
 
 add_subdirectory(dependencies)
 add_subdirectory(tests)
@@ -52,6 +47,7 @@ add_custom_command(TARGET RenderLibMainTest PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assets #<--- copy files in this folder
 		${PROJECT_BINARY_DIR}/assets/) #<--- into this path
+
 
 add_custom_command(TARGET RenderLibMainTest PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory

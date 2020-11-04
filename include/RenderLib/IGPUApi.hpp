@@ -16,7 +16,7 @@ namespace RenderLib
 {
 
 	class GPUPipeline;
-
+	class IModel;
 	class IMesh;
 
 	class IGPUApi
@@ -43,7 +43,10 @@ namespace RenderLib
 		virtual std::shared_ptr<GPUPipeline> CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code) = 0;
 
 		// a mesh is a series of gpu buffers, with the 0 one containing the geometry vertices
-		virtual std::shared_ptr<IMesh> CreateMesh() = 0;
+		virtual std::shared_ptr<IMesh> CreateMesh() const = 0;
+
+		//
+		virtual std::shared_ptr<IModel> CreateModel() = 0;
 
 		// submit a draw call with the specified pipeline and data
 		virtual void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) = 0;

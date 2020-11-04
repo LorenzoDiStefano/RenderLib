@@ -1,8 +1,8 @@
 #ifndef RENDERLIB_OPENGL4_API
 #define RENDERLIB_OPENGL4_API
 
-#include "../../src/IGPUApi.hpp"
-#include "../../src/glad.h"
+#include <RenderLib/IGPUApi.hpp>
+#include "../src/ogl4/glad.h"
 #include <GLFW/glfw3.h>
 #include <string>
 
@@ -22,7 +22,8 @@ namespace RenderLib
 
 		std::shared_ptr<GPUPipeline> CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code) override;
 
-		std::shared_ptr<IMesh> CreateMesh() override;
+		std::shared_ptr<IMesh> CreateMesh() const override;
+		std::shared_ptr<IModel> CreateModel() override;
 
 		void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) override;
 
