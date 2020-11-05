@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_UTILS
 #define RENDERLIB_UTILS
+#pragma once
 
 #include <filesystem>
 #include <vector>
@@ -7,25 +8,20 @@
 
 namespace RenderLib
 {
-
-	class IModel;
 	struct MeshData;
 
-	class Utils
+	namespace Utils
 	{
-		
-	public:
-		static std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
-		//set flip image
-		static inline void SetImageLoadingVerticalFlip(bool flag) 
+		std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
+		MeshData ImportModelAsset(std::string path);
+
+		//used to set stbi flag for vertical flip of images
+		inline void SetImageLoadingVerticalFlip(bool flag) 
 		{
 			stbi_set_flip_vertically_on_load(flag);
 		}
-	};
 	
-	MeshData ImportModelAsset(std::string path);
+	}
 }
-
-
 
 #endif

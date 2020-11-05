@@ -1,5 +1,7 @@
 #ifndef RENDERLIB_MODEL
 #define RENDERLIB_MODEL
+#pragma once 
+
 #include <iostream>
 #include <vector>
 #include <RenderLib/IModel.hpp>

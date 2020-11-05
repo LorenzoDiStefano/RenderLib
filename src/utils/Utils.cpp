@@ -175,7 +175,7 @@ namespace RenderLib
 
 
 
-    MeshData ImportModelAsset(std::string path)
+    MeshData Utils::ImportModelAsset(std::string path)
     {
         MeshData loadedInformations;
         

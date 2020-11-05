@@ -1,5 +1,5 @@
 #include <iostream>
-#include <RenderLib/OpenGL4Api.hpp>
+#include <RenderLib/GPUApiFactory.hpp>
 #include <RenderLib/IModel.hpp>
 #include <RenderLib/IMesh.hpp>
 #include <RenderLib/Utils.hpp>
@@ -11,7 +11,7 @@ int main()
 {
 	// AAA Almost Always Auto
 	// Dangling pointers
-	auto gpu = std::make_shared<RenderLib::OpenGL4Api>(1024, 1024, "Hello World");
+	auto gpu = RenderLib::CreateOGL4GPUApi(1024, 1024, "Hello World");
 
 	auto vertex_shader_path = std::filesystem::path("shaders/sprite_vertex.glsl");
 	auto pixel_shader_path = std::filesystem::path("shaders/sprite_pixel.glsl");
@@ -29,7 +29,7 @@ int main()
 
 	auto stormtropper_model = gpu->CreateModel();
 
-	RenderLib::MeshData assetLoadedData = RenderLib::ImportModelAsset("assets/backpack.obj");
+	RenderLib::MeshData assetLoadedData = RenderLib::Utils::ImportModelAsset("assets/backpack.obj");
 
 	stormtropper_model->LoadMeshes(assetLoadedData, *gpu);
 

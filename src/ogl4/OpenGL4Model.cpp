@@ -1,16 +1,6 @@
-//#include <RenderLib/Model.hpp>
-//#include "../src/ogl4/glad.h"
-//#include <string>
-//namespace RenderLib
-//{
-//
-//
-//}
-
 #pragma once
 
-//#include <RenderLib/IModel.hpp>
-#include <RenderLib/OpenGL4Api.hpp>
+#include "OpenGL4Api.hpp"
 #include <string>
 #include "glad.h"
 #include "OpenGL4Model.hpp"

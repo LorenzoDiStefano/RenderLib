@@ -1,5 +1,7 @@
 #ifndef RENDERLIB_OPENGL4_MESH
 #define RENDERLIB_OPENGL4_MESH
+#pragma once 
+
 #include <RenderLib/IMesh.hpp>
 #include <string>
 #include "../src/ogl4/glad.h"

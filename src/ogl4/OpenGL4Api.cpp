@@ -1,4 +1,4 @@
-#include <RenderLib/OpenGL4Api.hpp>
+#include "OpenGL4Api.hpp"
 #include <iostream>
 #include "OpenGL4Mesh.hpp"
 #include "OpenGL4Model.hpp"
@@ -69,7 +69,7 @@ namespace RenderLib
 		GLint view_location;
 		GLint projection_location;
 		GLint light_location;
-		friend class OpenGL4Api;
+		//friend class OpenGL4Api;
 	};
 }
 

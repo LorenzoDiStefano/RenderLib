@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_OPENGL4_API
 #define RENDERLIB_OPENGL4_API
+#pragma once
 
 #include <RenderLib/IGPUApi.hpp>
 #include "../src/ogl4/glad.h"

@@ -1,5 +1,7 @@
 #ifndef RENDERLIB_MESH_DATA
 #define RENDERLIB_MESH_DATA
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>

@@ -1,6 +1,9 @@
 #ifndef RENDERLIB_VERTEX
 #define RENDERLIB_VERTEX
+#pragma once
+
 #include <glm/glm.hpp>
+
 namespace RenderLib
 {
     struct Vertex {

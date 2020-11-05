@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_IGPU_API
 #define RENDERLIB_IGPU_API
+#pragma once 
 
 #include <cstdint>
 #include <memory>
@@ -10,7 +11,6 @@
 
 /*
 Interface for GPU api abstraction
-
 */
 namespace RenderLib
 {

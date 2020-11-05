@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_IMODEL
 #define RENDERLIB_IMODEL
+#pragma once
 
 #include <RenderLib/MeshData.hpp>
 #include <RenderLib/Texture.hpp>

@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_IMESH
 #define RENDERLIB_IMESH
+#pragma once
 
 #include <vector>
 #include <cstdint>

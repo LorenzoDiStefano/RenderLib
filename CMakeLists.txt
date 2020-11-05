@@ -24,6 +24,7 @@ set(RENDERLIB_SOURCE
 	"src/ogl4/OpenGL4Model.cpp"
 	"src/utils/MeshData.cpp"
 	"src/utils/Utils.cpp"
+	"src/GPUApiFactory.cpp"
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")

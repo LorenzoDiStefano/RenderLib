@@ -1,5 +1,6 @@
 #ifndef RENDERLIB_TEXTURE
 #define RENDERLIB_TEXTURE
+#pragma once 
 
 namespace RenderLib 
 {
