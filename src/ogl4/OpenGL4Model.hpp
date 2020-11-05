@@ -13,6 +13,9 @@ namespace RenderLib
     public:
         //void setActiveTexture() override;
         void LoadModel(ModelDescriptor&, const IGPUApi&) override;
+
+    private:
+        unsigned int LoadImage(const char* path, const std::string& directory, bool gamma) override;
     };
 }
 

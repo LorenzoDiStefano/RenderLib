@@ -25,6 +25,9 @@ namespace RenderLib
 
 			std::vector<std::shared_ptr<RenderLib::IMesh>> modelMeshes;
 			uint16_t meshesCount = 0;
+
+	protected:
+		virtual unsigned int LoadImage(const char* path, const std::string& directory, bool gamma) = 0;
 	};
 }
 

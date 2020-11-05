@@ -2,6 +2,7 @@
 #define RENDERLIB_UTILS
 #pragma once
 
+#include <RenderLib/ImageData.hpp>
 #include <filesystem>
 #include <vector>
 
@@ -11,6 +12,7 @@ struct RenderLib::ModelDescriptor;
 
 namespace RenderLib::Utils
 {
+	std::unique_ptr<ImageData> TextureFromFile(const char* path, const std::string& directory);
 	std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
 	ModelDescriptor GetModelDescriptor(std::string path);
 

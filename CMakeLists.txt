@@ -14,6 +14,7 @@ set(RENDERLIB_HEADERS
 	"src/ogl4/OpenGL4Api.hpp"
  	"src/ogl4/OpenGL4Mesh.hpp"
 	"src/ogl4/OpenGL4Model.hpp"
+	"src/utils/ImageData.hpp"
 )
 
 set(RENDERLIB_SOURCE

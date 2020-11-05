@@ -1,3 +1,4 @@
+#include <RenderLib/ImageData.hpp>
 #include <RenderLib/IModel.hpp>
 #include <RenderLib/Vertex.hpp>
 #include <RenderLib/Utils.hpp>
@@ -9,6 +10,11 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+
+#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#include "../dependencies/stb_image.h"
+#endif
 
 namespace RenderLib::Utils
 {
@@ -22,6 +28,21 @@ namespace RenderLib::Utils
 	    file_to_read.close();
 
 	    return vector_of_bytes;
+    }
+
+    std::unique_ptr<ImageData> TextureFromFile(const char* path, const std::string& directory)
+    {
+        auto imageInformations = std::make_unique<ImageData>();
+        std::string filename = std::string(path);
+        filename = directory + '/' + filename;
+
+        auto dataPtr = stbi_load(
+            filename.c_str(), &imageInformations->width,
+            &imageInformations->height, &imageInformations->nrComponents, 0);
+
+        imageInformations->data = std::make_unique<unsigned char*>(dataPtr);
+
+        return imageInformations;
     }
 
     std::vector<TextureDescriptor> loadMaterialTextures(

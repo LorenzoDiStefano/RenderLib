@@ -1,17 +1,12 @@
-#include <RenderLib/ModelDescriptor.hpp>
-#include <RenderLib/IModel.hpp>
+#include "OpenGL4Model.hpp"
+#include "OpenGL4Api.hpp"
+
 #include <RenderLib/IMesh.hpp>
+#include <RenderLib/Utils.hpp>
+
 #include <iostream>
 #include <string>
 
-#include "OpenGL4Model.hpp"
-#include "OpenGL4Api.hpp"
-#include "glad.h"
-
-#ifndef STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#include "../dependencies/stb_image.h"
-#endif
 
 namespace RenderLib
 {
@@ -39,43 +34,39 @@ namespace RenderLib
 		glActiveTexture(GL_TEXTURE0);
 	}
 
-	//This should not be here, dont load image data from disk in the ogl4 model class
-	//a part of this sould be in utils and the rest in Ogl4Texture
-	unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma, const ModelDescriptor& loadedInformations)
+	unsigned int OpenGL4Model::LoadImage(const char* path, const std::string& directory, bool gamma)
 	{
-		std::string filename = std::string(path);
-		filename = directory + '/' + filename;
-
 		unsigned int textureID;
 		glGenTextures(1, &textureID);
 
-		int width, height, nrComponents;
-		unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-		if (data)
+		//call texture from file
+		auto imageInformations = RenderLib::Utils::TextureFromFile(path, directory);
+
+		if (*(imageInformations->data.get()))
 		{
 			GLenum format = GL_RED;
-			if (nrComponents == 1)
+			if (imageInformations->nrComponents == 1)
 				format = GL_RED;
-			else if (nrComponents == 3)
+			else if (imageInformations->nrComponents == 3)
 				format = GL_RGB;
-			else if (nrComponents == 4)
+			else if (imageInformations->nrComponents == 4)
 				format = GL_RGBA;
 
 			glBindTexture(GL_TEXTURE_2D, textureID);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, imageInformations->width, 
+				imageInformations->height, 0, format, GL_UNSIGNED_BYTE, 
+				*(imageInformations->data.get()));
+
 			glGenerateMipmap(GL_TEXTURE_2D);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			stbi_image_free(data);
 		}
 		else
 		{
 			std::cout << "Texture failed to load at path: " << path << std::endl;
-			stbi_image_free(data);
 		}
 
 		return textureID;
@@ -97,10 +88,11 @@ namespace RenderLib
 		for (unsigned int i = 0; i < meshInformations.texturesToLoad.size(); i++)
 		{
 			meshInformations.texturesToLoad[i].id = 
-				TextureFromFile((meshInformations.texturesToLoad[i].path).c_str(), 
-				meshInformations.directory, false, meshInformations);
+				LoadImage((meshInformations.texturesToLoad[i].path).c_str(),
+				meshInformations.directory, false);
 
 			textures_loaded.push_back(meshInformations.texturesToLoad[i]);
 		}
 	}
+
 }
