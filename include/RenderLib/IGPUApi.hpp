@@ -2,19 +2,17 @@
 #define RENDERLIB_IGPU_API
 #pragma once 
 
-#include <cstdint>
-#include <memory>
-#include <string>
-#include <functional>
 #include <glm/mat4x4.hpp>
 #include <glm/vec4.hpp>
+
+#include <memory>
+#include <string>
 
 /*
 Interface for GPU api abstraction
 */
 namespace RenderLib
 {
-
 	class GPUPipeline;
 	class IModel;
 	class IMesh;
@@ -56,4 +54,5 @@ namespace RenderLib
 		IGPUApi() = default;
 	};
 }
+
 #endif

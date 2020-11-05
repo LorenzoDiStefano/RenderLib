@@ -1,77 +1,68 @@
+#include <RenderLib/IModel.hpp>
+#include <RenderLib/Vertex.hpp>
 #include <RenderLib/Utils.hpp>
+
+#include <assimp/postprocess.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
-#include "../ogl4/glad.h"
-#include <RenderLib/Texture.hpp>
-#include <RenderLib/IModel.hpp>
-#include <RenderLib/MeshData.hpp>
-#include <memory>
-#include <fstream>
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <array>
-#include <unordered_map>
-#include <functional>
+#include <fstream>
+#include <memory>
 
-std::unique_ptr<std::vector<std::byte>> RenderLib::Utils::ReadFileContent(const std::filesystem::path path)
+namespace RenderLib::Utils
 {
-	auto file_size_in_bytes = std::filesystem::file_size(path);
-	auto vector_of_bytes = std::make_unique<std::vector<std::byte>>(file_size_in_bytes);
-
-	std::ifstream file_to_read(path);
-
-
-	
-	file_to_read.read(reinterpret_cast<char*>(vector_of_bytes->data()), file_size_in_bytes);
-
-	file_to_read.close();
-
-
-	return vector_of_bytes;
-}
-
-namespace RenderLib
-{
-    std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, MeshData& loadedInformations)
+    std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path)
     {
-        std::vector<Texture> textures;
+	    auto file_size_in_bytes = std::filesystem::file_size(path);
+	    auto vector_of_bytes = std::make_unique<std::vector<std::byte>>(file_size_in_bytes);
+
+	    std::ifstream file_to_read(path);
+	    file_to_read.read(reinterpret_cast<char*>(vector_of_bytes->data()), file_size_in_bytes);
+	    file_to_read.close();
+
+	    return vector_of_bytes;
+    }
+
+    std::vector<TextureDescriptor> loadMaterialTextures(
+        aiMaterial* mat, aiTextureType type, std::string typeName, 
+        ModelDescriptor& modelInformations)
+    {
+        std::vector<TextureDescriptor> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
             mat->GetTexture(type, i, &str);
 
             bool skip = false;
-            for (unsigned int j = 0; j < loadedInformations.texturesToLoad.size(); j++)
+            for (unsigned int j = 0; j < modelInformations.texturesToLoad.size(); j++)
             {
-                if (std::strcmp(loadedInformations.texturesToLoad[j].path.data(), str.C_Str()) == 0)
+                if (std::strcmp(modelInformations.texturesToLoad[j].path.data(), str.C_Str()) == 0)
                 {
-                    textures.push_back(loadedInformations.texturesToLoad[j]);
+                    textures.push_back(modelInformations.texturesToLoad[j]);
                     skip = true;
                     break;
                 }
             }
             if (!skip)
-            {   // if texture hasn't been loaded already, load it
-                Texture texture;
+            {   
+                // if texture hasn't been loaded already, load it
+                TextureDescriptor texture;
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures.push_back(texture);
-                loadedInformations.texturesToLoad.push_back(texture); // add texture informations for easy loding whene necessary
+                // add texture informations for easy loding when necessary
+                modelInformations.texturesToLoad.push_back(texture); 
             }
         }
         return textures;
     }
 
-
-
-    MeshInfo processMesh(aiMesh* mesh, const aiScene* scene, MeshData& loadedInformations)
+    MeshDescriptor processMesh(aiMesh* mesh, const aiScene* scene, ModelDescriptor& modelInformations)
     {
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
-        std::vector<Texture> textures;
+        std::vector<TextureDescriptor> textures;
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex vertex;
@@ -121,8 +112,7 @@ namespace RenderLib
                 indices.push_back(face.mIndices[j]);
         }
 
-        MeshInfo result;
-
+        MeshDescriptor result;
 
         // copy vertices in float array 
         for (auto index : indices)
@@ -143,11 +133,11 @@ namespace RenderLib
         if (mesh->mMaterialIndex >= 0)
         {
             aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-            std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
-                aiTextureType_DIFFUSE, "texture_diffuse", loadedInformations);
+            std::vector<TextureDescriptor> diffuseMaps = loadMaterialTextures(material,
+                aiTextureType_DIFFUSE, "texture_diffuse", modelInformations);
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-            std::vector<Texture> specularMaps = loadMaterialTextures(material,
-                aiTextureType_SPECULAR, "texture_specular", loadedInformations);
+            std::vector<TextureDescriptor> specularMaps = loadMaterialTextures(material,
+                aiTextureType_SPECULAR, "texture_specular", modelInformations);
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
             
             result.textures = textures;
@@ -156,45 +146,39 @@ namespace RenderLib
         return result;
     }
 
-
-    void processNode(aiNode* node, const aiScene* scene, MeshData& loadedInformations)
+    void processNode(aiNode* node, const aiScene* scene, ModelDescriptor& modelInformations)
     {
         // process all the node's meshes (if any)
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            //MeshDataEquivalent
-            loadedInformations.meshes.push_back(processMesh(mesh, scene, loadedInformations));
+            modelInformations.meshes.push_back(processMesh(mesh, scene, modelInformations));
         }
         // then do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            processNode(node->mChildren[i], scene, loadedInformations);
+            processNode(node->mChildren[i], scene, modelInformations);
         }
     }
 
-
-
-    MeshData Utils::ImportModelAsset(std::string path)
+    ModelDescriptor GetModelDescriptor(std::string modelPath)
     {
-        MeshData loadedInformations;
+        ModelDescriptor modelInformations;
         
         Assimp::Importer import;
-        const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+        const aiScene* scene = import.ReadFile(modelPath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
             std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
-            return loadedInformations;
+            return modelInformations;
         }
 
-        //MeshDataEquivalent
-        loadedInformations.directory = path.substr(0, path.find_last_of('/'));
-        loadedInformations.meshesCount = scene->mNumMeshes;
+        modelInformations.directory = modelPath.substr(0, modelPath.find_last_of('/'));
+        modelInformations.meshesCount = scene->mNumMeshes;
 
-        processNode(scene->mRootNode, scene, loadedInformations);
+        processNode(scene->mRootNode, scene, modelInformations);
 
-        return loadedInformations;
+        return modelInformations;
     }
-
 }

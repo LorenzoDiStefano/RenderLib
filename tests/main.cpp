@@ -3,7 +3,6 @@
 #include <RenderLib/IModel.hpp>
 #include <RenderLib/IMesh.hpp>
 #include <RenderLib/Utils.hpp>
-#include <RenderLib/MeshData.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -21,20 +20,19 @@ int main()
 
 	auto pipeline = gpu->CreatePipeline(
 		std::string(reinterpret_cast<char*>(vertex_shader_code->data()), vertex_shader_code->size()),
-		std::string(reinterpret_cast<char*>(pixel_shader_code->data()), pixel_shader_code->size())
-	);
+		std::string(reinterpret_cast<char*>(pixel_shader_code->data()), pixel_shader_code->size()));
 
 	// set flip image
 	RenderLib::Utils::SetImageLoadingVerticalFlip(true);
 
 	auto stormtropper_model = gpu->CreateModel();
 
-	RenderLib::MeshData assetLoadedData = RenderLib::Utils::ImportModelAsset("assets/backpack.obj");
+	RenderLib::ModelDescriptor assetLoadedData = RenderLib::Utils::GetModelDescriptor("assets/backpack.obj");
 
-	stormtropper_model->LoadMeshes(assetLoadedData, *gpu);
+	stormtropper_model->LoadModel(assetLoadedData, *gpu);
 
 	glm::vec3 position = { 0, 0, 0 };
-	glm::vec3 camera = { 0 ,1.5f, 6 };
+	glm::vec3 camera = { 0, 1.5f, 6 };
 	glm::vec3 light_direction = { 0, 0, -1 };
 
 	float roty = 0;
@@ -44,7 +42,6 @@ int main()
 		auto projection = glm::perspective(
 			glm::degrees(60.0f), static_cast<float>(gpu->GetWidth()) / static_cast<float>(gpu->GetHeight()), 
 			0.01f, 1000.0f);
-
 
 		roty += 0.00001f;
 

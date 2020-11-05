@@ -3,7 +3,6 @@
 #pragma once
 
 #include <RenderLib/IGPUApi.hpp>
-#include <memory>
 
 //factory to hide gpu apis
 namespace RenderLib

@@ -1,37 +1,23 @@
-#pragma once
-
-#include "OpenGL4Api.hpp"
+#include <RenderLib/ModelDescriptor.hpp>
+#include <RenderLib/IModel.hpp>
+#include <RenderLib/IMesh.hpp>
+#include <iostream>
 #include <string>
-#include "glad.h"
+
 #include "OpenGL4Model.hpp"
+#include "OpenGL4Api.hpp"
+#include "glad.h"
+
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #include "../dependencies/stb_image.h"
 #endif
-#include <string>
-#include <iostream>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#include "../ogl4/glad.h"
-#include <RenderLib/Texture.hpp>
-#include <RenderLib/IModel.hpp>
-#include <RenderLib/MeshData.hpp>
-#include <memory>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <array>
-#include <unordered_map>
-#include <functional>
 
 namespace RenderLib
 {
-
-
-	void IModel::setActiveTexture() {
+	//This should be in Ogl4Texture
+	void IModel::setActiveTexture()
+	{
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
@@ -53,7 +39,9 @@ namespace RenderLib
 		glActiveTexture(GL_TEXTURE0);
 	}
 
-	unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma, const MeshData& loadedInformations)
+	//This should not be here, dont load image data from disk in the ogl4 model class
+	//a part of this sould be in utils and the rest in Ogl4Texture
+	unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma, const ModelDescriptor& loadedInformations)
 	{
 		std::string filename = std::string(path);
 		filename = directory + '/' + filename;
@@ -93,9 +81,8 @@ namespace RenderLib
 		return textureID;
 	}
 
-
 	//Loading vertex, normals and uvs informations from memory to the gpu
-	void OpenGL4Model::LoadMeshes(MeshData& meshInformations, const IGPUApi& gpu)
+	void OpenGL4Model::LoadModel(ModelDescriptor& meshInformations, const IGPUApi& gpu)
 	{
 		meshesCount = meshInformations.meshesCount;
 		for (size_t i = 0; i < meshInformations.meshesCount; i++)
@@ -116,5 +103,4 @@ namespace RenderLib
 			textures_loaded.push_back(meshInformations.texturesToLoad[i]);
 		}
 	}
-
 }

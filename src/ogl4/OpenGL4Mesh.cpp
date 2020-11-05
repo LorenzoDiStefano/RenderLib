@@ -1,10 +1,10 @@
+#include <vector>
+
 #include "OpenGL4Mesh.hpp"
 #include "glad.h"
-#include <vector>
-#include <iostream>
 
-namespace RenderLib {
-
+namespace RenderLib 
+{
 	OpenGL4Mesh::OpenGL4Mesh() : number_of_vertices(0)
 	{
 		glGenVertexArrays(1, &vao);

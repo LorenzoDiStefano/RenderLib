@@ -22,7 +22,6 @@ set(RENDERLIB_SOURCE
 	"src/ogl4/OpenGL4Api.cpp"
  	"src/ogl4/OpenGL4Mesh.cpp"
 	"src/ogl4/OpenGL4Model.cpp"
-	"src/utils/MeshData.cpp"
 	"src/utils/Utils.cpp"
 	"src/GPUApiFactory.cpp"
 )

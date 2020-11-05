@@ -3,7 +3,8 @@
 #pragma once
 
 #include <RenderLib/IGPUApi.hpp>
-#include "../src/ogl4/glad.h"
+//glad.h must ALWAYS be included before GLFW
+#include "glad.h"
 #include <GLFW/glfw3.h>
 #include <string>
 
@@ -27,7 +28,6 @@ namespace RenderLib
 		std::shared_ptr<IModel> CreateModel() override;
 
 		void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) override;
-
 
 	private:
 		GLFWwindow* window;

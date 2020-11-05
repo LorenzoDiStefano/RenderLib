@@ -2,10 +2,7 @@
 #define RENDERLIB_MODEL
 #pragma once 
 
-#include <iostream>
-#include <vector>
 #include <RenderLib/IModel.hpp>
-#include <RenderLib/IMesh.hpp>
 
 namespace RenderLib
 {
@@ -14,8 +11,9 @@ namespace RenderLib
     class OpenGL4Model : public IModel
     {
     public:
-
-        void LoadMeshes(MeshData&, const IGPUApi&) override;
+        //void setActiveTexture() override;
+        void LoadModel(ModelDescriptor&, const IGPUApi&) override;
     };
 }
+
 #endif
