@@ -2,13 +2,11 @@
 #define RENDERLIB_UTILS
 #pragma once
 
+#include <RenderLib/ModelDescriptor.hpp>
 #include <RenderLib/ImageData.hpp>
 #include <filesystem>
 #include <vector>
-
 #include "../dependencies/stb_image.h"
-
-struct RenderLib::ModelDescriptor;
 
 namespace RenderLib::Utils
 {

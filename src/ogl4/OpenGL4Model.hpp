@@ -3,6 +3,7 @@
 #pragma once 
 
 #include <RenderLib/IModel.hpp>
+#include "OpenGL4Texture.hpp"
 
 namespace RenderLib
 {
@@ -11,11 +12,12 @@ namespace RenderLib
     class OpenGL4Model : public IModel
     {
     public:
-        //void setActiveTexture() override;
+        void ActivateTextures() override;
         void LoadModel(ModelDescriptor&, const IGPUApi&) override;
 
-    private:
-        unsigned int LoadImage(const char* path, const std::string& directory, bool gamma) override;
+        std::vector<std::shared_ptr<IMesh>> modelMeshes;
+        std::vector<std::shared_ptr<ITexture>> loadedTextures;
+        uint16_t meshesCount = 0;
     };
 }
 

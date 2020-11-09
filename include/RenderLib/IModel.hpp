@@ -13,21 +13,8 @@ namespace RenderLib
 	class IModel
 	{
 		public:
-			// model data
-			std::vector<TextureDescriptor> textures_loaded;
-
-			void setActiveTexture();
-			//virtual void setActiveTexture() = 0;
-
-			virtual void LoadAssets(ModelDescriptor) {};
 			virtual void LoadModel(ModelDescriptor&, const IGPUApi&) = 0;
-			void Draw() {};
-
-			std::vector<std::shared_ptr<RenderLib::IMesh>> modelMeshes;
-			uint16_t meshesCount = 0;
-
-	protected:
-		virtual unsigned int LoadImage(const char* path, const std::string& directory, bool gamma) = 0;
+			virtual void ActivateTextures() = 0;
 	};
 }
 

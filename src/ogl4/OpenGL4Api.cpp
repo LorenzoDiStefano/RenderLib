@@ -1,9 +1,9 @@
-#include <iostream>
-
+#include "OpenGL4Texture.hpp"
 #include "OpenGL4Model.hpp"
 #include "OpenGL4Mesh.hpp"
 #include "OpenGL4Api.hpp"
 #include "glad.h"
+#include <iostream>
 
 namespace RenderLib
 {
@@ -77,9 +77,29 @@ namespace RenderLib
 		return std::make_shared<OpenGL4Mesh>();
 	}
 
+	std::shared_ptr<IMesh> OpenGL4Api::CreateMesh()
+	{
+		return std::make_shared<OpenGL4Mesh>();
+	}
+
+	std::shared_ptr<IModel> OpenGL4Api::CreateModel() const
+	{
+		return std::make_shared<OpenGL4Model>();
+	}
+
 	std::shared_ptr<IModel> OpenGL4Api::CreateModel()
 	{
 		return std::make_shared<OpenGL4Model>();
+	}
+
+	std::shared_ptr<ITexture> OpenGL4Api::CreateTexture() const
+	{
+		return std::make_shared<OpenGl4Texture>();
+	}
+
+	std::shared_ptr<ITexture> OpenGL4Api::CreateTexture()
+	{
+		return std::make_shared<OpenGl4Texture>();
 	}
 
 	void OpenGL4Api::Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light)
@@ -91,6 +111,18 @@ namespace RenderLib
 		glUniformMatrix4fv(pipeline->projection_location, 1, GL_FALSE, &projection[0][0]);
 		glUniform3f(pipeline->light_location, light.x, light.y, light.z);
 		glDrawArrays(GL_TRIANGLES, 0, mesh->GetNumberOfVertices());
+	}
+
+	void OpenGL4Api::Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IModel> meshModel, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light)
+	{
+		auto castedModel = reinterpret_cast<OpenGL4Model*> (meshModel.get());
+		castedModel->ActivateTextures();
+
+		for (size_t i = 0; i < castedModel->meshesCount; i++)
+		{
+			auto mesh = castedModel->modelMeshes[i];
+			Draw(pipeline, mesh, model, view, projection, light);
+		}
 	}
 
 	std::shared_ptr<RenderLib::GPUPipeline> OpenGL4Api::CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code)

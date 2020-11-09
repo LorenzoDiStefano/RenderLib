@@ -8,9 +8,9 @@ namespace RenderLib
 {
     struct ImageData
     {
-        int width;
-        int height;
-        int nrComponents;
+        int width = -1;
+        int height = -1;
+        int nrComponents = -1;
 
         std::unique_ptr<unsigned char*> data;
     };

@@ -54,13 +54,7 @@ int main()
 
 		gpu->Clear({ 0, 1, 0, 1 });
 
-		// active texture 
-		stormtropper_model->setActiveTexture();
-
-		for (size_t i = 0; i < stormtropper_model->meshesCount; i++)
-		{
-			gpu->Draw(pipeline, stormtropper_model->modelMeshes[i], model, view, projection, light_direction);
-		}
+		gpu->Draw(pipeline, stormtropper_model, model, view, projection, light_direction);
 
 		gpu->Present();
 	}

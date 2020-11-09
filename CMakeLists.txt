@@ -6,6 +6,7 @@ message("Starting setup")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_FLAGS "/Od" )
 
 set(RENDERLIB_HEADERS
 	"dependencies/stb_image.h"
@@ -14,6 +15,7 @@ set(RENDERLIB_HEADERS
 	"src/ogl4/OpenGL4Api.hpp"
  	"src/ogl4/OpenGL4Mesh.hpp"
 	"src/ogl4/OpenGL4Model.hpp"
+	"src/ogl4/OpenGL4Texture.hpp"
 	"src/utils/ImageData.hpp"
 )
 
@@ -23,16 +25,15 @@ set(RENDERLIB_SOURCE
 	"src/ogl4/OpenGL4Api.cpp"
  	"src/ogl4/OpenGL4Mesh.cpp"
 	"src/ogl4/OpenGL4Model.cpp"
+	"src/ogl4/OpenGL4Texture.cpp"
 	"src/utils/Utils.cpp"
 	"src/GPUApiFactory.cpp"
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-
 add_executable(RenderLibMainTest "tests/main.cpp")
 add_library(RenderLib STATIC ${RENDERLIB_SOURCE})
-
 
 add_subdirectory(dependencies)
 add_subdirectory(tests)
@@ -48,7 +49,6 @@ add_custom_command(TARGET RenderLibMainTest PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assets #<--- copy files in this folder
 		${PROJECT_BINARY_DIR}/assets/) #<--- into this path
-
 
 add_custom_command(TARGET RenderLibMainTest PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
