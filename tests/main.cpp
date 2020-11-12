@@ -5,6 +5,7 @@
 #include <RenderLib/Utils.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <RenderLib/Transform.hpp>
 
 int main()
 {
@@ -35,12 +36,15 @@ int main()
 		backpackModel->LoadModel(*backpackModelDescriptor, *gpu);
 	}
 
-	glm::vec3 backpackPosition = { 0, 0, 0 };
-	glm::vec3 eyeballPosition = { 0, 2.0f, 0 };
 	glm::vec3 camera = { 0, 1.5f, 6 };
 	glm::vec3 lightDirection = { 0, 0, -1 };
 
-	float roty = 0;
+
+	RenderLib::Transform transformEyeballModel;
+	RenderLib::Transform transformBackpackModel;
+	transformEyeballModel.position = { 0, 2.0f, 0 };
+	transformBackpackModel.position = { 0, 0, 0 };
+
 
 	while (gpu->DequeueEvents())
 	{
@@ -48,16 +52,13 @@ int main()
 			glm::degrees(60.0f), static_cast<float>(gpu->GetWidth()) / static_cast<float>(gpu->GetHeight()),
 			0.01f, 1000.0f);
 
-		roty += 0.001f;
 
-		auto model = glm::translate(glm::mat4(1), backpackPosition) *
-			glm::rotate(glm::mat4(1), glm::degrees(roty), { 0, 1, 0 });
-		model = glm::scale(model, glm::vec3(0.3f));
+		transformEyeballModel.rotation.y += 0.001f;
+		transformBackpackModel.rotation.y += 0.001f;
+
+		auto model = transformBackpackModel.getTransformModel();
 		//model = glm::scale(model, glm::vec3(0.5f));
-
-		auto model2 = glm::translate(glm::mat4(1), eyeballPosition) *
-			glm::rotate(glm::mat4(1), glm::degrees(roty), { 0, 1, 0 });
-		model2 = glm::scale(model2, glm::vec3(0.3f));
+		auto model2 = transformEyeballModel.getTransformModel();
 
 		auto view = glm::translate(glm::mat4(1), -camera);
 

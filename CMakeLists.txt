@@ -27,6 +27,7 @@ set(RENDERLIB_SOURCE
 	"src/ogl4/OpenGL4Model.cpp"
 	"src/ogl4/OpenGL4Texture.cpp"
 	"src/utils/Utils.cpp"
+	"src/utils/Transform.cpp"
 	"src/GPUApiFactory.cpp"
 )
 
