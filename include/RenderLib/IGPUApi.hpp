@@ -1,10 +1,10 @@
-#ifndef RENDERLIB_IGPU_API
-#define RENDERLIB_IGPU_API
+#ifndef RENDERLIB_IGPUAPI
+#define RENDERLIB_IGPUAPI
 #pragma once 
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec4.hpp>
-
+#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -56,6 +56,8 @@ namespace RenderLib
 		// submit a draw call with the specified pipeline and data
 		virtual void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) = 0;
 		virtual void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IModel> meshModel, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) = 0;
+		
+		std::unordered_map<std::string, std::shared_ptr<ITexture>> textureLoaded;
 
 	protected:
 		// "abstract" class (in the C#/Java sense)
@@ -63,4 +65,4 @@ namespace RenderLib
 	};
 }
 
-#endif
+#endif // !RENDERLIB_IGPUAPI

@@ -46,7 +46,7 @@ namespace RenderLib::Utils
     }
 
     std::vector<TextureDescriptor> loadMaterialTextures(
-        aiMaterial* mat, aiTextureType type, std::string typeName, 
+        aiMaterial* mat, aiTextureType type, TextureType textureType, 
         ModelDescriptor& modelInformations)
     {
         std::vector<TextureDescriptor> textures;
@@ -69,7 +69,7 @@ namespace RenderLib::Utils
             {   
                 // if texture hasn't been loaded already, load it
                 TextureDescriptor texture;
-                texture.type = typeName;
+                texture.type = textureType;
                 texture.path = str.C_Str();
                 textures.push_back(texture);
                 // add texture informations for easy loding when necessary
@@ -79,41 +79,38 @@ namespace RenderLib::Utils
         return textures;
     }
 
-    MeshDescriptor processMesh(aiMesh* mesh, const aiScene* scene, ModelDescriptor& modelInformations)
+    void processMesh(aiMesh* mesh, const aiScene* scene, ModelDescriptor& modelInformations)
     {
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
         std::vector<TextureDescriptor> textures;
+
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex vertex;
 
             //process vertex
-            glm::vec3 vector;
-            vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].y;
-            vector.z = mesh->mVertices[i].z;
-            vertex.Position = vector;
+            vertex.Position.x = mesh->mVertices[i].x;
+            vertex.Position.y = mesh->mVertices[i].y;
+            vertex.Position.z = mesh->mVertices[i].z;
 
             //process Normal
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].y;
-            vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
+            vertex.Normal.x = mesh->mNormals[i].x;
+            vertex.Normal.y = mesh->mNormals[i].y;
+            vertex.Normal.z = mesh->mNormals[i].z;
 
             //process texture
             if (mesh->mTextureCoords[0])
             {
-                glm::vec2 vec;
-                vec.x = mesh->mTextureCoords[0][i].x;
-                vec.y = mesh->mTextureCoords[0][i].y;
-                vertex.TexCoords = vec;
+                vertex.TexCoords.x = mesh->mTextureCoords[0][i].x;
+                vertex.TexCoords.y = mesh->mTextureCoords[0][i].y;
 
                 //// tangent
                 //vector.x = mesh->mTangents[i].x;
                 //vector.y = mesh->mTangents[i].y;
                 //vector.z = mesh->mTangents[i].z;
                 //vertex.Tangent = vector;
+
                 //// bitangent
                 //vector.x = mesh->mBitangents[i].x;
                 //vector.y = mesh->mBitangents[i].y;
@@ -125,6 +122,7 @@ namespace RenderLib::Utils
 
             vertices.push_back(vertex);
         }
+
         // process indices
         for (unsigned int i = 0; i < mesh->mNumFaces; i++)
         {
@@ -150,21 +148,33 @@ namespace RenderLib::Utils
             result.normals.push_back(vertices[index].Normal.z);
         }
 
+        unsigned int materialIndex = mesh->mMaterialIndex;
+
         // process material
-        if (mesh->mMaterialIndex >= 0)
+        if (materialIndex >= 0)
         {
-            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-            std::vector<TextureDescriptor> diffuseMaps = loadMaterialTextures(material,
-                aiTextureType_DIFFUSE, "texture_diffuse", modelInformations);
-            textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-            std::vector<TextureDescriptor> specularMaps = loadMaterialTextures(material,
-                aiTextureType_SPECULAR, "texture_specular", modelInformations);
-            textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+            auto search = modelInformations.materials.find(materialIndex);
+            //if material is not been loaded
+            if (search == modelInformations.materials.end())
+            {
+                auto matdesc = MaterialDescriptor();
+
+                aiMaterial* material = scene->mMaterials[materialIndex];
+
+                std::vector<TextureDescriptor> diffuseMaps = loadMaterialTextures(material,
+                    aiTextureType_DIFFUSE, TextureType::DIFFUSE, modelInformations);
+                matdesc.materialTextures.insert(matdesc.materialTextures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
+                std::vector<TextureDescriptor> specularMaps = loadMaterialTextures(material,
+                    aiTextureType_SPECULAR, TextureType::SPECULAR, modelInformations);
+                matdesc.materialTextures.insert(matdesc.materialTextures.end(), specularMaps.begin(), specularMaps.end());
             
-            result.textures = textures;
+                modelInformations.materials[materialIndex]= matdesc;
+            }
+            result.materialIndex = materialIndex - 1;
         }
 
-        return result;
+        modelInformations.meshes.push_back(result);
     }
 
     void processNode(aiNode* node, const aiScene* scene, ModelDescriptor& modelInformations)
@@ -173,8 +183,9 @@ namespace RenderLib::Utils
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            modelInformations.meshes.push_back(processMesh(mesh, scene, modelInformations));
+            processMesh(mesh, scene, modelInformations);
         }
+
         // then do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
@@ -182,10 +193,10 @@ namespace RenderLib::Utils
         }
     }
 
-    ModelDescriptor GetModelDescriptor(std::string modelPath)
+    std::shared_ptr<ModelDescriptor> GetModelDescriptor(std::string modelPath)
     {
-        ModelDescriptor modelInformations;
-        
+        auto modelInformations = std::make_shared<ModelDescriptor>();
+
         Assimp::Importer import;
         const aiScene* scene = import.ReadFile(modelPath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -195,10 +206,10 @@ namespace RenderLib::Utils
             return modelInformations;
         }
 
-        modelInformations.directory = modelPath.substr(0, modelPath.find_last_of('/'));
-        modelInformations.meshesCount = scene->mNumMeshes;
+        modelInformations->directory = modelPath.substr(0, modelPath.find_last_of('/'));
+        modelInformations->meshesCount = scene->mNumMeshes;
 
-        processNode(scene->mRootNode, scene, modelInformations);
+        processNode(scene->mRootNode, scene, *modelInformations);
 
         return modelInformations;
     }

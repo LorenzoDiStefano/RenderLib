@@ -6,24 +6,25 @@
 
 namespace RenderLib
 {
-	void OpenGl4Texture::setActiveTexture()
+	void OpenGl4Texture::setActiveTexture(std::string& uniform)
 	{
 		glActiveTexture(GL_TEXTURE0 + textureNumber); // activate proper texture unit before binding
-		glUniform1i(glGetUniformLocation(1, (cachedUniformName).c_str()), textureNumber);
+		glUniform1i(glGetUniformLocation(1, (uniform).c_str()), textureNumber);
 		glBindTexture(GL_TEXTURE_2D, textureId);
 	}
 
 	void OpenGl4Texture::LoadImage(const char* path, const std::string& directory, bool gamma)
 	{
-		glGenTextures(1, &textureId);
-
 		//get information of image loaded from disk
 		auto imageInformations = Utils::TextureFromFile(path, directory);
+
 		//get pointer to texture data loaded from disk
 		auto imageInformationsDataPtr = *(imageInformations->data.get());
 
 		if (imageInformationsDataPtr)
 		{
+			glGenTextures(1, &textureId);
+	
 			GLenum format = GL_RED;
 			if (imageInformations->nrComponents == 1)
 				format = GL_RED;

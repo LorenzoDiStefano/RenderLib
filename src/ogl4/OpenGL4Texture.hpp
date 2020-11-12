@@ -8,7 +8,7 @@ namespace RenderLib
 	class OpenGl4Texture : public ITexture
 	{
 	public:
-		void setActiveTexture() override;
+		void setActiveTexture(std::string& uniform) override;
 		void LoadImage(const char* path, const std::string& directory, bool gamma) override;
 	};
 }

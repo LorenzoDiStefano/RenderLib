@@ -12,7 +12,7 @@ namespace RenderLib::Utils
 {
 	std::unique_ptr<ImageData> TextureFromFile(const char* path, const std::string& directory);
 	std::unique_ptr<std::vector<std::byte>> ReadFileContent(const std::filesystem::path path);
-	ModelDescriptor GetModelDescriptor(std::string path);
+	std::shared_ptr<ModelDescriptor> GetModelDescriptor(std::string path);
 
 	//used to set stbi flag for vertical flip of images
 	inline void SetImageLoadingVerticalFlip(bool flag) 
@@ -21,4 +21,4 @@ namespace RenderLib::Utils
 	}
 }
 
-#endif
+#endif // !RENDERLIB_UTILS

@@ -116,13 +116,20 @@ namespace RenderLib
 	void OpenGL4Api::Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IModel> meshModel, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light)
 	{
 		auto castedModel = reinterpret_cast<OpenGL4Model*> (meshModel.get());
-		castedModel->ActivateTextures();
 
 		for (size_t i = 0; i < castedModel->meshesCount; i++)
 		{
 			auto mesh = castedModel->modelMeshes[i];
+			auto meshMat = castedModel->meshesMaterials[mesh->materialIndex];
+			castedModel->ActivateMaterial(meshMat);
+
 			Draw(pipeline, mesh, model, view, projection, light);
 		}
+
+		//only usefull when rendering models without textures
+		//it should not be needed since a bind "overwrites" the state of what textures are active
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	std::shared_ptr<RenderLib::GPUPipeline> OpenGL4Api::CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code)

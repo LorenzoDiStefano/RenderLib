@@ -7,55 +7,90 @@
 
 namespace RenderLib
 {
-	void OpenGL4Model::ActivateTextures()
+	void OpenGL4Model::ActivateMaterial(Material& mat)
 	{
-		for each (auto tex in loadedTextures)
+		for each (auto tex in mat.textures)
 		{
-			tex->setActiveTexture();
+			tex.second->setActiveTexture(tex.first);
 		}
 	}
 
 	//Loading vertex, normals and uvs informations from memory to the gpu
-	void OpenGL4Model::LoadModel(ModelDescriptor& meshInformations, const IGPUApi& gpu)
+	void OpenGL4Model::LoadModel(ModelDescriptor& meshInformations, IGPUApi& gpu)
 	{
 		//lading vertices, normals and uvs
 		meshesCount = meshInformations.meshesCount;
 		for (size_t i = 0; i < meshesCount; i++)
 		{
 			auto triangle = gpu.CreateMesh();
+
 			triangle->AddElements(meshInformations.meshes[i].vertices, 3);
 			triangle->AddElements(meshInformations.meshes[i].normals, 3);
 			triangle->AddElements(meshInformations.meshes[i].uvs, 2);
+			triangle->materialIndex = meshInformations.meshes[i].materialIndex;
+
 			modelMeshes.push_back(triangle);
 		}
 
-		//loading textures
-		unsigned int diffuseNr = 1;
-		unsigned int specularNr = 1;
-		unsigned int normalNr = 1;
-		unsigned int heightNr = 1;
+		auto ogl4Gpu = reinterpret_cast<OpenGL4Api*> (&gpu);
 
-		for (unsigned int i = 0; i < meshInformations.texturesToLoad.size(); i++)
+		//loading materials
+		for (unsigned int y = 0; y < meshInformations.materials.size(); y++)
 		{
-			//creating texture and asking for image loading
-			auto tex = gpu.CreateTexture();
-			tex->LoadImage((meshInformations.texturesToLoad[i].path).c_str(),
-				meshInformations.directory, false);
+			Material mat;
 
-			//getting information to cache
-			std::string number;
-			std::string name = meshInformations.texturesToLoad[i].type;
-			if (name == "texture_diffuse")
-				number = std::to_string(diffuseNr++);
-			else if (name == "texture_specular")
-				number = std::to_string(specularNr++);
+			MaterialDescriptor& matDesc = meshInformations.materials[y+1];
 
-			//caching texture info
-			tex->textureNumber = i;
-			tex->cachedUniformName = (name + number).c_str();
+			//loading textures
+			unsigned int diffuseNr = 1;
+			unsigned int specularNr = 1;
+			unsigned int normalNr = 1;
+			unsigned int heightNr = 1;
 
-			//saving loaded texture needed
-			loadedTextures.push_back(tex);
+			for (unsigned int i = 0; i < matDesc.materialTextures.size(); i++)
+			{
+				//getting cache uniform name
+				std::string cachedUniformName;
+
+				switch (matDesc.materialTextures[i].type)
+				{
+				case TextureType::SPECULAR:
+					cachedUniformName = "texture_specular" + std::to_string(specularNr++);
+					break;
+				case TextureType::DIFFUSE:
+					cachedUniformName = "texture_diffuse" + std::to_string(diffuseNr++);
+					break;
+				default:
+					break;
+				}
+
+				std::shared_ptr<ITexture> texPtr;
+				auto search = ogl4Gpu->textureLoaded.find(matDesc.materialTextures[i].path);
+
+				//if texture has not been loaded
+				if (search == ogl4Gpu->textureLoaded.end())
+				{
+					// set flip image
+					Utils::SetImageLoadingVerticalFlip(meshInformations.imageLoadingVerticalFlipFlag);
+
+					texPtr = gpu.CreateTexture();
+					texPtr->LoadImage((matDesc.materialTextures[i].path).c_str(),
+						meshInformations.directory, false);
+
+					texPtr->textureNumber = i;
+
+					ogl4Gpu->textureLoaded[matDesc.materialTextures[i].path] = texPtr;
+				}
+				else
+				{
+					texPtr = search->second;
+				}
+
+				mat.textures.push_back(std::pair(cachedUniformName, texPtr));
+				
+			}
+
+			this->meshesMaterials.push_back(mat);
 		}
 	}
 

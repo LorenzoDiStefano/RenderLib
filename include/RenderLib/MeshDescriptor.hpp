@@ -13,8 +13,9 @@ namespace RenderLib
 		std::vector<float> vertices;
 		std::vector<float> normals;
 		std::vector<float> uvs;
-		std::vector<TextureDescriptor> textures;
+
+		unsigned int materialIndex;
 	};
 }
 
-#endif
+#endif // !RENDERLIB_MESHDESCRIPTOR

@@ -3,16 +3,21 @@
 #pragma once 
 
 #include <string>
-#include <memory>
 
 namespace RenderLib 
 {
+    enum class TextureType
+    {
+        DIFFUSE,    //texture_diffuse
+        SPECULAR    //texture_specular
+    };
+
     //TextureDescriptor holds all the informations about a texture for easy loading
     struct TextureDescriptor 
     {
-        std::string type;
+        TextureType type;
         std::string path;
     };
 }
 
-#endif
+#endif // !RENDERLIB_TEXTUREDESCRIPTOR

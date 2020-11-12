@@ -1,9 +1,11 @@
-#ifndef RENDERLIB_MODEL
-#define RENDERLIB_MODEL
+#ifndef RENDERLIB_OPENGL4MODEL
+#define RENDERLIB_OPENGL4MODEL
 #pragma once 
 
 #include <RenderLib/IModel.hpp>
+#include <RenderLib/Material.hpp>
 #include "OpenGL4Texture.hpp"
+#include <array>
 
 namespace RenderLib
 {
@@ -12,13 +14,13 @@ namespace RenderLib
     class OpenGL4Model : public IModel
     {
     public:
-        void ActivateTextures() override;
-        void LoadModel(ModelDescriptor&, const IGPUApi&) override;
+        void ActivateMaterial(Material&);
+        void LoadModel(ModelDescriptor&, IGPUApi&) override;
 
         std::vector<std::shared_ptr<IMesh>> modelMeshes;
-        std::vector<std::shared_ptr<ITexture>> loadedTextures;
+        std::vector<Material> meshesMaterials;
         uint16_t meshesCount = 0;
     };
 }
 
-#endif
+#endif // !RENDERLIB_OPENGL4MODEL

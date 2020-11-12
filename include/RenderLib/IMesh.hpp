@@ -12,7 +12,9 @@ namespace RenderLib
 		virtual void AddElements(const std::vector<float>& data, const uint32_t size) = 0;
 		virtual void Bind() = 0;
 		virtual uint32_t GetNumberOfVertices() = 0;
+
+		unsigned int materialIndex;
 	};
 }
 
-#endif
+#endif // !RENDERLIB_IMESH

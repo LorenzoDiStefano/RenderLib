@@ -13,8 +13,7 @@ namespace RenderLib
 	class IModel
 	{
 		public:
-			virtual void LoadModel(ModelDescriptor&, const IGPUApi&) = 0;
-			virtual void ActivateTextures() = 0;
+			virtual void LoadModel(ModelDescriptor&, IGPUApi&) = 0;
 	};
 }
 
