@@ -15,7 +15,7 @@ namespace RenderLib
     {
     public:
         void ActivateMaterial(Material&);
-        void LoadModel(ModelDescriptor&, IGPUApi&) override;
+        void LoadModel(Utils::ModelDescriptor&, IGPUApi&) override;
 
         std::vector<std::shared_ptr<IMesh>> modelMeshes;
         std::vector<Material> meshesMaterials;

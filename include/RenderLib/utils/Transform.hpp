@@ -1,10 +1,13 @@
 #ifndef RENDERLIB_TRANSFORM
 #define RENDERLIB_TRANSFORM
+#pragma once
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-namespace RenderLib {
+
+namespace RenderLib::Utils
+{
 
 	struct  Transform
 	{
@@ -15,4 +18,5 @@ namespace RenderLib {
 		glm::mat4x4 getTransformModel();
 	};
 }
+
 #endif

@@ -2,7 +2,7 @@
 #define RENDERLIB_IMODEL
 #pragma once
 
-#include <RenderLib/ModelDescriptor.hpp>
+#include <RenderLib/utils/ModelDescriptor.hpp>
 #include <memory>
 
 namespace RenderLib
@@ -13,7 +13,7 @@ namespace RenderLib
 	class IModel
 	{
 		public:
-			virtual void LoadModel(ModelDescriptor&, IGPUApi&) = 0;
+			virtual void LoadModel(Utils::ModelDescriptor&, IGPUApi&) = 0;
 	};
 }
 

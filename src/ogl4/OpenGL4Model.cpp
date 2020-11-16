@@ -1,7 +1,7 @@
 #include "OpenGL4Model.hpp"
 #include "OpenGL4Api.hpp"
 #include <RenderLib/IMesh.hpp>
-#include <RenderLib/Utils.hpp>
+#include <RenderLib/utils/Utils.hpp>
 #include <iostream>
 #include <string>
 
@@ -16,7 +16,7 @@ namespace RenderLib
 	}
 
 	//Loading vertex, normals and uvs informations from memory to the gpu
-	void OpenGL4Model::LoadModel(ModelDescriptor& meshInformations, IGPUApi& gpu)
+	void OpenGL4Model::LoadModel(Utils::ModelDescriptor& meshInformations, IGPUApi& gpu)
 	{
 		//lading vertices, normals and uvs
 		meshesCount = meshInformations.meshesCount;
@@ -39,7 +39,7 @@ namespace RenderLib
 		{
 			Material mat;
 
-			MaterialDescriptor& matDesc = meshInformations.materials[y+1];
+			Utils::MaterialDescriptor& matDesc = meshInformations.materials[y+1];
 
 			//loading textures
 			unsigned int diffuseNr = 1;
@@ -54,10 +54,10 @@ namespace RenderLib
 
 				switch (matDesc.materialTextures[i].type)
 				{
-				case TextureType::SPECULAR:
+				case Utils::TextureType::SPECULAR:
 					cachedUniformName = "texture_specular" + std::to_string(specularNr++);
 					break;
-				case TextureType::DIFFUSE:
+				case Utils::TextureType::DIFFUSE:
 					cachedUniformName = "texture_diffuse" + std::to_string(diffuseNr++);
 					break;
 				default:

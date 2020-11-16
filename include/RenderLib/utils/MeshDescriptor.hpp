@@ -2,10 +2,10 @@
 #define RENDERLIB_MESHDESCRIPTOR
 #pragma once 
 
-#include <RenderLib/TextureDescriptor.hpp>
+#include <RenderLib/utils/TextureDescriptor.hpp>
 #include <vector>
 
-namespace RenderLib
+namespace RenderLib::Utils
 {
 	//MeshDescriptor holds all the informations about a mesh
 	struct MeshDescriptor

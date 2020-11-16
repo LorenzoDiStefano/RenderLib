@@ -1,6 +1,6 @@
-#include <RenderLib/Transform.hpp>
+#include <RenderLib/utils/Transform.hpp>
 
-namespace RenderLib
+namespace RenderLib::Utils
 {
 	glm::mat4x4 Transform::getTransformModel()
 	{

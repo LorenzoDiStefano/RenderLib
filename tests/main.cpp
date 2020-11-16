@@ -2,10 +2,10 @@
 #include <RenderLib/GPUApiFactory.hpp>
 #include <RenderLib/IModel.hpp>
 #include <RenderLib/IMesh.hpp>
-#include <RenderLib/Utils.hpp>
+#include <RenderLib/utils/Utils.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <RenderLib/Transform.hpp>
+#include <RenderLib/utils/Transform.hpp>
 
 int main()
 {
@@ -40,8 +40,8 @@ int main()
 	glm::vec3 lightDirection = { 0, 0, -1 };
 
 
-	RenderLib::Transform transformEyeballModel;
-	RenderLib::Transform transformBackpackModel;
+	RenderLib::Utils::Transform transformEyeballModel;
+	RenderLib::Utils::Transform transformBackpackModel;
 	transformEyeballModel.position = { 0, 2.0f, 0 };
 	transformBackpackModel.position = { 0, 0, 0 };
 

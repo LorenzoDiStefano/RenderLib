@@ -2,7 +2,7 @@
 #include "glad.h"
 
 #include <iostream>
-#include <RenderLib/Utils.hpp>
+#include <RenderLib/utils/Utils.hpp>
 
 namespace RenderLib
 {

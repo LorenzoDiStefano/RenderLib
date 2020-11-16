@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace RenderLib 
+namespace RenderLib::Utils
 {
     enum class TextureType
     {

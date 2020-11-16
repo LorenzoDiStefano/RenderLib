@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace RenderLib
+namespace RenderLib::Utils
 {
     struct ImageData
     {

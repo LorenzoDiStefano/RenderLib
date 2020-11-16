@@ -1,7 +1,7 @@
-#include <RenderLib/ImageData.hpp>
+#include <RenderLib/utils/ImageData.hpp>
 #include <RenderLib/IModel.hpp>
 #include <RenderLib/Vertex.hpp>
-#include <RenderLib/Utils.hpp>
+#include <RenderLib/utils/Utils.hpp>
 
 #include <assimp/postprocess.h>
 #include <assimp/Importer.hpp>

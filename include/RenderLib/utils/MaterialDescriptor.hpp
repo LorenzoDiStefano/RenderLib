@@ -1,10 +1,10 @@
 #ifndef RENDERLIB_MATERIALDESCRIPTOR
 #define RENDERLIB_MATERIALDESCRIPTOR
 
-#include <RenderLib/TextureDescriptor.hpp>
+#include <RenderLib/utils/TextureDescriptor.hpp>
 #include <vector>
 
-namespace RenderLib
+namespace RenderLib::Utils
 {
 	struct MaterialDescriptor
 	{

@@ -2,11 +2,11 @@
 #define RENDERLIB_MODELDESCRIPTOR
 #pragma once
 
-#include <RenderLib/MaterialDescriptor.hpp>
-#include <RenderLib/MeshDescriptor.hpp>
+#include <RenderLib/utils/MaterialDescriptor.hpp>
+#include <RenderLib/utils/MeshDescriptor.hpp>
 #include <unordered_map>
 
-namespace RenderLib
+namespace RenderLib::Utils
 {
 	//ModelDescriptor holds all the informations about a model for easy loading by IModel
 	struct ModelDescriptor
