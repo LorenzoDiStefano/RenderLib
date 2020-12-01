@@ -4,8 +4,8 @@ set(gtest_force_shared_crt ON CACHE BOOL [FORCE])
 
 set(SOURCE_TESTS
 
-	"gtest_test.cpp"
-)
+	"exampleGtestTests.cpp"
+ "MockGPUApiFactory.hpp" "MockOGL4GPUApi.hpp")
 
 add_executable(RenderLib_Tests ${SOURCE_TESTS})
 add_dependencies(RenderLib_Tests RenderLib)
