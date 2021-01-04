@@ -6,7 +6,7 @@ namespace RenderLib::Utils
 	{
 		auto modelTransform = glm::translate(glm::mat4(1), position)*
 			glm::rotate(glm::mat4(1), glm::degrees(rotation.y), { 0, 1, 0 });
-		modelTransform = glm::scale(modelTransform, glm::vec3(0.3f));
+		modelTransform = glm::scale(modelTransform, scale);
 		
 		return modelTransform;
 	}
