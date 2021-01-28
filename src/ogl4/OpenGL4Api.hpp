@@ -36,11 +36,14 @@ namespace RenderLib
 		void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IMesh> mesh, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) override;
 		void Draw(std::shared_ptr<GPUPipeline> pipeline, std::shared_ptr<IModel> meshModel, glm::mat4& model, glm::mat4& view, glm::mat4& projection, glm::vec3& light) override;
 
+		void SetAlphaBlending(bool) override;
+
 	private:
 		GLFWwindow* window;
 		uint32_t width;
 		uint32_t height;
 		bool close;
+		bool usingAlpha;
 	};
 }
 

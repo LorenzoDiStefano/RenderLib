@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <RenderLib/utils/Transform.hpp>
+#include "../src/ogl4/glad.h"
 
 int main()
 {
@@ -100,7 +101,7 @@ int main()
 	grassMesh.uvs = floatVegetetionsUV;
 
 	grassText.type = RenderLib::Utils::TextureType::DIFFUSE;
-	grassText.path = "grass.png";
+	grassText.path = "blending_window.png";
 
 	grassMat.materialTextures.push_back(grassText);
 
@@ -131,9 +132,12 @@ int main()
 		auto view = glm::translate(glm::mat4(1), -camera);
 
 		gpu->Clear({ 0, 1, 0, 1 });
-
+		gpu->SetAlphaBlending(false);
+		
 		gpu->Draw(pipeline, backpackModel, glm::scale(model, glm::vec3(0.3f)), view, projection, lightDirection);
 		gpu->Draw(pipeline, eyeballModel, glm::scale(model2, glm::vec3(0.3f)), view, projection, lightDirection);
+		
+		gpu->SetAlphaBlending(true);
 
 		gpu->Draw(pipeline2D, grassModel, model, view, projection, lightDirection);
 

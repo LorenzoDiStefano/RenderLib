@@ -21,7 +21,8 @@ namespace RenderLib
 	OpenGL4Api::OpenGL4Api(const uint32_t width, const uint32_t height, const std::string title) :
 		width(width),
 		height(height),
-		close(false)
+		close(false),
+		usingAlpha(false)
 	{
 		glfwInit();
 
@@ -36,6 +37,7 @@ namespace RenderLib
 		glViewport(0, 0, width, height);
 
 		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// assign this to the user data of GLFWWindow
 		glfwSetWindowUserPointer(window, this);
@@ -130,6 +132,11 @@ namespace RenderLib
 		//it should not be needed since a bind "overwrites" the state of what textures are active
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	void OpenGL4Api::SetAlphaBlending(bool usingAlpha)
+	{
+		usingAlpha ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
 	}
 
 	std::shared_ptr<RenderLib::GPUPipeline> OpenGL4Api::CreatePipeline(const std::string vertex_shader_code, const std::string pixel_shader_code)

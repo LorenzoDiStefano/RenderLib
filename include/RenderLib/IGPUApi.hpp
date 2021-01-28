@@ -59,6 +59,8 @@ namespace RenderLib
 		
 		std::unordered_map<std::string, std::shared_ptr<ITexture>> textureLoaded;
 
+		virtual void SetAlphaBlending(bool) = 0;
+
 	protected:
 		// "abstract" class (in the C#/Java sense)
 		IGPUApi() = default;
