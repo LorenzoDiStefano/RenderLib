@@ -38,6 +38,9 @@ namespace RenderLib
 
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+
+		glEnable(GL_CULL_FACE);
 
 		// assign this to the user data of GLFWWindow
 		glfwSetWindowUserPointer(window, this);
@@ -55,6 +58,8 @@ namespace RenderLib
 				myself->height = height;
 				glViewport(0, 0, myself->GetWidth(), myself->GetHeight());
 			});
+
+
 	}
 
 	const bool OpenGL4Api::DequeueEvents()
